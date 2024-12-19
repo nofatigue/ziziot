@@ -97,17 +97,17 @@
           width: 50px;
         }
       }
-    .radio-group {
+    .grade-radio-group {
       display: grid;
       grid-template-columns: repeat(2, auto); /* Two columns */
       gap: 10px; /* Spacing between radio buttons */
     }
-    .radio-group label {
+    .grade-radio-group label {
       display: flex;
       align-items: center;
       cursor: pointer;
     }
-    .radio-group input[type="radio"] {
+    .grade-radio-group input[type="radio"] {
       margin-right: 5px;
     }
     </style>
@@ -115,11 +115,17 @@
   <body>
     <h1>טופס הזמנת ציציות חטיבת ישלצ</h1>
     <form id="orderForm">
-      <label for="customerFirstName">שם פרטי:</label>
-      <input type="text" id="customerFirstName" required />
+      <label for="parentFirstName">שם פרטי של הורה:</label>
+      <input type="text" id="parentFirstName" required />
 
-      <label for="customerLastName">שם משפחה:</label>
-      <input type="text" id="customerLastName" required />
+      <label for="parentLastName">שם משפחה של הורה:</label>
+      <input type="text" id="parentLastName" required />
+
+      <label for="studentFirstName">שם פרטי של תלמיד:</label>
+      <input type="text" id="studentFirstName" required />
+
+      <label for="studentLastName">שם משפחה של תלמיד:</label>
+      <input type="text" id="studentLastName" required />
 
       <label for="customerEmail">אימייל:</label>
       <input type="email" id="customerEmail" required />
@@ -128,18 +134,18 @@
       <input type="tel" id="customerPhone" required />
 
       <p>כיתה:</p>
-      <div class="radio-group">
+      <div class="grade-radio-group">
         <label>
-          <input type="radio" name="options" value="option1"> ז1
-        </label><br>
+          <input type="radio" name="options" value="ז1"> ז1
+        </label>
         <label>
-          <input type="radio" name="options" value="option2"> ז2
-        </label><br>
+          <input type="radio" name="options" value="ז2"> ז2
+        </label>
         <label>
-          <input type="radio" name="options" value="option3"> ח1
-        </label><br>
+          <input type="radio" name="options" value="ח1"> ח1
+        </label>
         <label>
-          <input type="radio" name="options" value="option4"> ח2
+          <input type="radio" name="options" value="ח2"> ח2
         </label>
        </div>
 
@@ -177,11 +183,13 @@
       }
 
       function submitOrder() {
-        const name = document.getElementById("customerFirstName").value.trim() + " " + document.getElementById("customerLastName").value.trim()
         const email = document.getElementById("customerEmail").value.trim();
         const phone = document.getElementById("customerPhone").value.trim();
+        const parentName = document.getElementById("parentFirstName").value.trim() + " " + document.getElementById("parentLastName").value.trim();
+        const studentName = document.getElementById("studentFirstName").value.trim() + " " + document.getElementById("studentLastName").value.trim();
+        const grade = document.querySelector('input[name="options"]:checked').value;
 
-        if (!name || !email || !phone) {
+        if (!parentName || !studentName || !email || !phone || !grade) {
           alert("בבקשה למלא את כל הפרטים האישיים");
           return;
         }
@@ -221,7 +229,7 @@
             processingMessage.style.display = "none";
             alert("שגיאה: " + error.message);
           })
-          .processOrder(name, email, phone, totalPayment, orderDetails);
+          .processOrder(parentName, studentName, grade, email, phone, totalPayment, orderDetails);
       }
     </script>
   </body>

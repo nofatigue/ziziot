@@ -86,7 +86,7 @@ function createProductTable() {
 }
 
 
-function processOrder(name, email, phone, totalPayment, orderDetails) {
+function processOrder(parentName, studentName, grade, email, phone, totalPayment, orderDetails) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const orderInfoSheet = ss.getSheetByName("orderInfo");
   const orderDetailsSheet = ss.getSheetByName("orderDetails");
@@ -95,7 +95,7 @@ function processOrder(name, email, phone, totalPayment, orderDetails) {
   const orderId = uuid();
 
   // Add to orderInfo
-  orderInfoSheet.appendRow([orderId, timestamp, name, email, phone, totalPayment]);
+  orderInfoSheet.appendRow([orderId, timestamp, parentName, studentName, grade, email, phone, totalPayment]);
 
   // Add to orderDetails
   orderDetails.forEach(detail => {
@@ -107,7 +107,7 @@ function processOrder(name, email, phone, totalPayment, orderDetails) {
     ]);
   });
 
-  sendOrderConfirmationEmail(name, email, totalPayment, orderDetails);
+  sendOrderConfirmationEmail(orderId, parentName, studentName, grade, email, totalPayment, orderDetails);
 
 }
 
